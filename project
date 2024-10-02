@@ -1,0 +1,57 @@
+hotel_data <- read.csv("https://raw.githubusercontent.com/saraabuelkhair/hoteldata/refs/heads/main/Hotel.csv")
+head(hotel_data)
+
+#1. Average Room Price by Room Type (bar plot):
+avg_price_by_room_type <- tapply(hotel_data$avg_room_price, hotel_data$room_type, mean)
+barplot(avg_price_by_room_type, main="Average Room Price by Room Type", xlab="Room Type", ylab="Average Price", col="red")
+
+#2. Total Bookings by Market Segment (bar plot):
+market_segment_counts <- table(hotel_data$market_segment)
+barplot(market_segment_counts, main="Total Bookings by Market Segment", xlab="Market Segment", ylab="Number of Bookings", col="blue")
+
+#3. Proportion of Canceled vs. Not Canceled Bookings:
+table(hotel_data$status) / nrow(hotel_data)
+
+#4. Lead Time by Booking Status (Canceled vs Not Canceled) (box plot):
+boxplot(hotel_data$lead_time ~ hotel_data$status, main="Lead Time by Booking Status", xlab="Booking Status", ylab="Lead Time (Days)", col="green")
+
+#5. Special Requests vs. Lead Time (scatter plot): 
+plot(hotel_data$lead_time, hotel_data$special_requests, main="Scatter Plot: Lead Time vs Special Requests", xlab="Lead Time (Days)", ylab="Number of Special Requests", col="purple")
+
+#6. Subset of Canceled Bookings with Lead Time Greater than 100 Days:
+canceled_long_lead_time <- subset(hotel_data, lead_time > 100 & status == "Canceled")
+head(canceled_long_lead_time)
+
+#7. Average Room Price by Market Segment (box plot):
+boxplot(hotel_data$avg_room_price ~ hotel_data$market_segment, main="Room Price by Market Segment", xlab="Market Segment", ylab="Room Price", col="pink")
+
+#8. Total Bookings with Car Parking Space by Meal Plan:
+tapply(hotel_data$car_parking_space, hotel_data$meal_plan, sum)
+
+#9. Frequency of Each Meal Plan Selection:
+table(hotel_data$meal_plan)
+
+#10. Subset of Bookings with More Than 2 Weekend Nights:
+long_weekend_bookings <- subset(hotel_data, weekend_nights > 2)
+head(long_weekend_bookings)
+
+#11. Average Special Requests by Market Segment:
+avg_special_requests_by_segment <- tapply(hotel_data$special_requests, hotel_data$market_segment, mean)
+avg_special_requests_by_segment
+
+#12. Total Lead Time by Room Type:
+total_lead_time_by_room_type <- tapply(hotel_data$lead_time, hotel_data$room_type, sum)
+total_lead_time_by_room_type
+
+#13. Cancellation Rate by Market Segment:
+cancellation_rate_by_segment <- tapply(hotel_data$status == "Canceled", hotel_data$market_segment, mean)
+cancellation_rate_by_segment
+
+#14. Average Weekend Nights by Market Segment:
+avg_weekend_nights_by_segment <- tapply(hotel_data$weekend_nights, hotel_data$market_segment, mean)
+avg_weekend_nights_by_segment
+
+#15. Bookings with Lead Time Above Average and More than 2 Special Requests:
+avg_lead_time <- mean(hotel_data$lead_time)
+above_avg_lead_time_special_requests <- subset(hotel_data, lead_time > avg_lead_time & special_requests > 2)
+head(above_avg_lead_time_special_requests)
